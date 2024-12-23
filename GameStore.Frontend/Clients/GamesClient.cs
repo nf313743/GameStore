@@ -31,6 +31,24 @@ public class GamesClient
             ReleaseDate = new DateOnly(2022, 9, 27)
         }
     ];
+
+    private readonly IReadOnlyDictionary<int, string> _genres = new GenresClient().GetGenres().ToDictionary(x => x.Id, x => x.Name);
     
     public GameSummary[] GetGames() => _games.ToArray();
+
+    public void AddGame(GameDetails game)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(game.GenreId);
+
+        var gameSummary = new GameSummary
+        {
+            Id = _games.Count + 1,
+            Name = game.Name,
+            Genre = _genres[int.Parse(game.GenreId)],
+            Price = game.Price,
+            ReleaseDate = game.ReleaseDate
+        };
+        
+        _games.Add(gameSummary);
+    }
 }
