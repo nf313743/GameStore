@@ -90,4 +90,10 @@ public class GamesClient
         gameToUpdate.ReleaseDate = game.ReleaseDate;
         gameToUpdate.Genre = genre.Name;    
     }
+
+    public void DeleteGame(int id)
+    {
+        var gameToDelete = _games.Single(x => x.Id == id);
+        _games.Remove(gameToDelete);
+    }
 }
